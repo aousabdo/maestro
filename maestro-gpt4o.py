@@ -8,9 +8,17 @@ from openai import OpenAI
 from anthropic import Anthropic
 from tavily import TavilyClient
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
+openai_api_key = os.getenv("OPENAI_API_KEY")
+anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
+tavily_api_key = os.getenv("TAVILY_API_KEY")
+
 # Initialize OpenAI and Anthropic API clients
-openai_client = OpenAI(api_key="YOUR API KEY")
-anthropic_client = Anthropic(api_key="YOUR API KEY")
+openai_client = OpenAI(api_key=openai_api_key)
+anthropic_client = Anthropic(api_key=anthropic_api_key)
 
 # Available OpenAI models
 ORCHESTRATOR_MODEL = "gpt-4o"
@@ -91,7 +99,7 @@ def gpt_sub_agent(prompt, search_query=None, previous_gpt_tasks=None, use_search
 
     qna_response = None
     if search_query and use_search:
-        tavily = TavilyClient(api_key="YOUR_API_KEY")
+        tavily = TavilyClient(api_key=tavily_api_key)
         qna_response = tavily.qna_search(query=search_query)
         console.print(f"QnA response: {qna_response}", style="yellow")
 
